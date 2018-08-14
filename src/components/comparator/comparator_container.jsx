@@ -1,12 +1,22 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchSpotPlaylist } from '../../actions/spotify_actions';
-// import Comparator from './comparator';
+import { fetchSpotPlaylist, receiveSampleSpotPlaylist } from '../../actions/spotify_actions';
+import { fetchApplePlaylist, receiveSampleApplePlaylist } from '../../actions/apple_actions';
+import Comparator from './comparator';
 
-const mdp = (dispatch) => {
+const msp = (state, ownProps) => {
   return {
-    fetchSpotPlaylist: (spotUserId, spotPlaylistId, authToken) => dispatch(fetchSpotPlaylist(spotUserId, spotPlaylistId, authToken))
+    applePlaylist: state.applePlaylist || {},
+    spotifyPlaylist: state.spotifyPlaylist || {}
   };
 };
 
-// export default withRouter(connect(null, mdp)(Comparator));
+const mdp = (dispatch) => {
+  return {
+    fetchSpotPlaylist: (spotUserId, spotPlaylistId, authToken) => dispatch(fetchSpotPlaylist(spotUserId, spotPlaylistId, authToken)),
+    receiveSampleSpotPlaylist: () => dispatch(receiveSampleSpotPlaylist()),
+    receiveSampleApplePlaylist: () => dispatch(receiveSampleApplePlaylist())
+  };
+};
+
+export default withRouter(connect(null, mdp)(Comparator));

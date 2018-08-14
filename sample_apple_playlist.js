@@ -1,4 +1,4 @@
-export const sampleApple = {
+const sampleApple = {
     "data": [
         {
             "attributes": {
@@ -183,4 +183,6 @@ export const sampleApple = {
             "type": "playlists"
         }
     ]
-}
+};
+
+export default sampleApple;

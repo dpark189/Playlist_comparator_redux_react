@@ -1,5 +1,5 @@
 import * as AppleAPIUtil from '../utils/apple_api_util';
-import { sampleApple } from '../../sample_apple_playlist';
+import sampleApple from '../../sample_apple_playlist.js';
 
 export const RECEIVE_APPLE_PLAYLIST = 'RECEIVE_APPLE_PLAYLIST';
 export const RECEIVE_SAMPLE_APPLE_PLAYLIST = "RECEIVE_SAMPLE_APPLE_PLAYLIST";
@@ -15,7 +15,8 @@ export const receiveApplePlaylist = (playlist) => {
   };
 };
 
-export const receiveSampleApplePlaylist = (sampleApple) => {
+export const receiveSampleApplePlaylist = () => {
+  debugger
   const data = sampleApple.data[0];
   const isrcs = data.relationships.tracks.data.map( data => {
     return data.attributes.isrc;

@@ -7,7 +7,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        <h1>HIHI</h1>
+        <Route path="/" component={Comparator}/>
       </div>
     );
   }
