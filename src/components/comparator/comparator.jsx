@@ -4,13 +4,27 @@ import queryString from 'query-string';
 class Comparator extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      spotifyPlaylist: this.props.spotifyPlaylist,
+      applePlaylist: this.props.applePlaylist
+    };
+    this.count = 0;
     this.comparePls = this.comparePls.bind(this);
   }
 
   componentDidMount(){
     const values = queryString.parse(this.props.location.search);
+    // values are contain spotify and apple playlist ids
     this.props.receiveSampleSpotPlaylist();
     this.props.receiveSampleApplePlaylist();
+  }
+
+  componentWillReceiveProps(newProps){
+
+    this.setState({
+      spotifyPlaylist: newProps.spotifyPlaylist,
+      applePlaylist: newProps.applePlaylist
+    });
   }
 
   comparePls() {
@@ -18,6 +32,7 @@ class Comparator extends React.Component {
     const apple = this.props.applePlaylist;
     let other;
     let main;
+
     if (spot.length <= apple.length) {
       main = spot;
       other = apple;
@@ -25,17 +40,23 @@ class Comparator extends React.Component {
       main = apple;
       other = spot;
     }
-    debugger
     let count = 0;
-
+    main.forEach( id => {
+      if (other.includes(id)) {
+        count += 1;
+      }
+    });
+    this.count = count;
   }
   render(){
-    if (typeof this.props.spotifyPlaylist !== "undefined" && typeof this.props.applePlaylist !== "undefined") {
+    if (this.state.spotifyPlaylist.length === 0 && this.state.applePlaylist.length === 0) {
+    } else {
       this.comparePls();
     }
-    return (
-      <h1>hi agaiin</h1>
-    );
+
+    const jsonResponse = {count: this.count};
+
+    return JSON.stringify(jsonResponse);
   }
 }
 

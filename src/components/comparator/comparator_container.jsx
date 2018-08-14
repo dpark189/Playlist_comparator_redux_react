@@ -6,8 +6,8 @@ import Comparator from './comparator';
 
 const msp = (state, ownProps) => {
   return {
-    applePlaylist: state.applePlaylist || {},
-    spotifyPlaylist: state.spotifyPlaylist || {}
+    applePlaylist: state.applePlaylist || [],
+    spotifyPlaylist: state.spotifyPlaylist || []
   };
 };
 
@@ -19,4 +19,4 @@ const mdp = (dispatch) => {
   };
 };
 
-export default withRouter(connect(null, mdp)(Comparator));
+export default withRouter(connect(msp, mdp)(Comparator));

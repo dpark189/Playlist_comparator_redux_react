@@ -55214,7 +55214,6 @@ var receiveApplePlaylist = exports.receiveApplePlaylist = function receiveAppleP
 };
 
 var receiveSampleApplePlaylist = exports.receiveSampleApplePlaylist = function receiveSampleApplePlaylist() {
-  debugger;
   var data = _sample_apple_playlist2.default.data[0];
   var isrcs = data.relationships.tracks.data.map(function (data) {
     return data.attributes.isrc;
@@ -55395,6 +55394,11 @@ var Comparator = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Comparator.__proto__ || Object.getPrototypeOf(Comparator)).call(this, props));
 
+    _this.state = {
+      spotifyPlaylist: _this.props.spotifyPlaylist,
+      applePlaylist: _this.props.applePlaylist
+    };
+    _this.count = 0;
     _this.comparePls = _this.comparePls.bind(_this);
     return _this;
   }
@@ -55403,8 +55407,18 @@ var Comparator = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var values = _queryString2.default.parse(this.props.location.search);
+      // values are contain spotify and apple playlist ids
       this.props.receiveSampleSpotPlaylist();
       this.props.receiveSampleApplePlaylist();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+
+      this.setState({
+        spotifyPlaylist: newProps.spotifyPlaylist,
+        applePlaylist: newProps.applePlaylist
+      });
     }
   }, {
     key: 'comparePls',
@@ -55413,6 +55427,7 @@ var Comparator = function (_React$Component) {
       var apple = this.props.applePlaylist;
       var other = void 0;
       var main = void 0;
+
       if (spot.length <= apple.length) {
         main = spot;
         other = apple;
@@ -55420,20 +55435,24 @@ var Comparator = function (_React$Component) {
         main = apple;
         other = spot;
       }
-      debugger;
       var count = 0;
+      main.forEach(function (id) {
+        if (other.includes(id)) {
+          count += 1;
+        }
+      });
+      this.count = count;
     }
   }, {
     key: 'render',
     value: function render() {
-      if (typeof this.props.spotifyPlaylist !== "undefined" && typeof this.props.applePlaylist !== "undefined") {
+      if (this.state.spotifyPlaylist.length === 0 && this.state.applePlaylist.length === 0) {} else {
         this.comparePls();
       }
-      return _react2.default.createElement(
-        'h1',
-        null,
-        'hi agaiin'
-      );
+
+      var jsonResponse = { count: this.count };
+
+      return JSON.stringify(jsonResponse);
     }
   }]);
 
@@ -55474,8 +55493,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var msp = function msp(state, ownProps) {
   return {
-    applePlaylist: state.applePlaylist || {},
-    spotifyPlaylist: state.spotifyPlaylist || {}
+    applePlaylist: state.applePlaylist || [],
+    spotifyPlaylist: state.spotifyPlaylist || []
   };
 };
 
@@ -55493,7 +55512,7 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(null, mdp)(_comparator2.default));
+exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, mdp)(_comparator2.default));
 
 /***/ }),
 
@@ -55616,11 +55635,10 @@ var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js
 var _apple_actions = __webpack_require__(/*! ../actions/apple_actions */ "./src/actions/apple_actions.js");
 
 exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   Object.freeze(state);
-  var newState = (0, _lodash.merge)({}, state);
   switch (action.type) {
     case _apple_actions.RECEIVE_APPLE_PLAYLIST:
     case _apple_actions.RECEIVE_SAMPLE_APPLE_PLAYLIST:
@@ -55681,11 +55699,10 @@ var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js
 var _spotify_actions = __webpack_require__(/*! ../actions/spotify_actions */ "./src/actions/spotify_actions.js");
 
 exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   Object.freeze(state);
-  var newState = (0, _lodash.merge)({}, state);
   switch (action.type) {
     case _spotify_actions.RECEIVE_SPOT_PLAYLIST:
     case _spotify_actions.RECEIVE_SAMPLE_SPOT_PLAYLIST:

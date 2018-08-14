@@ -16,7 +16,6 @@ export const receiveApplePlaylist = (playlist) => {
 };
 
 export const receiveSampleApplePlaylist = () => {
-  debugger
   const data = sampleApple.data[0];
   const isrcs = data.relationships.tracks.data.map( data => {
     return data.attributes.isrc;
