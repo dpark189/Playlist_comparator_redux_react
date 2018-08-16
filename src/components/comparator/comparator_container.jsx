@@ -12,6 +12,7 @@ const msp = (state, ownProps) => {
 };
 
 const mdp = (dispatch) => {
+  // to fetch actual data, would need to add fetchApplePlaylist to this return with appropriate arguments
   return {
     fetchSpotPlaylist: (spotUserId, spotPlaylistId, authToken) => dispatch(fetchSpotPlaylist(spotUserId, spotPlaylistId, authToken)),
     receiveSampleSpotPlaylist: () => dispatch(receiveSampleSpotPlaylist()),
