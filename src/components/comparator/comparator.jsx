@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import JsonDisp from './json_disp';
 
 class Comparator extends React.Component {
   constructor(props) {
@@ -56,7 +57,9 @@ class Comparator extends React.Component {
 
     const jsonResponse = {count: this.count};
 
-    return JSON.stringify(jsonResponse);
+    return (
+      <JsonDisp json={JSON.stringify(jsonResponse)}/>
+    );
   }
 }
 
