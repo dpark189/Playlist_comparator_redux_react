@@ -15,9 +15,8 @@ class Comparator extends React.Component {
 
   componentDidMount(){
     const values = queryString.parse(this.props.location.search);
-    // values are contain spotify and apple playlist ids
+    // values contain spotify and apple playlist ids
     // to use fetch actual api data, fetchSpotPlaylist and fetchApplePlaylist would be used here instead using .then() between calls to account for async
-
     // using sample data,
     this.props.receiveSampleSpotPlaylist();
     this.props.receiveSampleApplePlaylist();

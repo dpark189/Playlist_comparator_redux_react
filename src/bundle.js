@@ -55316,6 +55316,10 @@ var _comparator_container = __webpack_require__(/*! ./comparator/comparator_cont
 
 var _comparator_container2 = _interopRequireDefault(_comparator_container);
 
+var _placeholder = __webpack_require__(/*! ./placeholder */ "./src/components/placeholder.jsx");
+
+var _placeholder2 = _interopRequireDefault(_placeholder);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55339,7 +55343,12 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _comparator_container2.default })
+        _react2.default.createElement(
+          _reactRouterDom.Switch,
+          null,
+          _react2.default.createElement(_placeholder2.default, { exact: true, path: '/' }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/compare-playlists', component: _comparator_container2.default })
+        )
       );
     }
   }]);
@@ -55411,7 +55420,9 @@ var Comparator = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var values = _queryString2.default.parse(this.props.location.search);
-      // values are contain spotify and apple playlist ids
+      // values contain spotify and apple playlist ids
+      // to use fetch actual api data, fetchSpotPlaylist and fetchApplePlaylist would be used here instead using .then() between calls to account for async
+      // using sample data,
       this.props.receiveSampleSpotPlaylist();
       this.props.receiveSampleApplePlaylist();
     }
@@ -55503,6 +55514,7 @@ var msp = function msp(state, ownProps) {
 };
 
 var mdp = function mdp(dispatch) {
+  // to fetch actual data, would need to add fetchApplePlaylist to this return with appropriate arguments
   return {
     fetchSpotPlaylist: function fetchSpotPlaylist(spotUserId, spotPlaylistId, authToken) {
       return dispatch((0, _spotify_actions.fetchSpotPlaylist)(spotUserId, spotPlaylistId, authToken));
@@ -55542,6 +55554,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
   return props.json;
+};
+
+/***/ }),
+
+/***/ "./src/components/placeholder.jsx":
+/*!****************************************!*\
+  !*** ./src/components/placeholder.jsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h1',
+      null,
+      ' hello '
+    ),
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/compare-playlists?spotify=no_match&appleMusic=no_match' },
+      'Click to compare sample data with no matches'
+    )
+  );
 };
 
 /***/ }),
